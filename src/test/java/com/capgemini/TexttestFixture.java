@@ -1,5 +1,9 @@
 package com.capgemini;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
 public class TexttestFixture {
     public static void main(String[] args) {
         System.out.println("OMGHAI!");
@@ -16,13 +20,24 @@ public class TexttestFixture {
                 // this conjured item does not work properly yet
                 new Item("Conjured Mana Cake", 3, 6) };
 
-        GildedRose app = new GildedRose(items);
 
         int days = 2;
+        String fileName;
         if (args.length > 0) {
-            days = Integer.parseInt(args[0]) + 1;
+            days = Integer.parseInt(args[0]);
         }
+        if (args.length > 1) {
+            fileName = args[1];
+            writeToFile(items, days, fileName);
+        }
+        else {
+            writeSystemOut(items, days);
+        }
+    }
 
+    private static void writeSystemOut(Item[] items, int days) {
+
+        GildedRose app = new GildedRose(items);
         for (int i = 0; i < days; i++) {
             System.out.println("-------- day " + i + " --------");
             System.out.println("name, sellIn, quality");
@@ -31,6 +46,26 @@ public class TexttestFixture {
             }
             System.out.println();
             app.updateQuality();
+        }
+    }
+
+    private static void writeToFile(Item[] items, int days, String fileName) {
+        try {
+            PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+            GildedRose app = new GildedRose(items);
+            for (int i = 0; i < days; i++) {
+
+                writer.println("-------- day " + i + " --------");
+                writer.println("name, sellIn, quality");
+                for (Item item : items) {
+                    writer.println(item);
+                }
+                writer.println();
+                app.updateQuality();
+            }
+            writer.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
     }
 
