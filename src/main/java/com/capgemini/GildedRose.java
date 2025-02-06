@@ -16,23 +16,23 @@ class GildedRose {
             if (!isAgedBire && !isBackstage) {
                 if (item.quality > 0) {
                     if (!isSulfuras) {
-                        item.quality = item.quality - 1;
+                        decreaseQuality(item);
                     }
                 }
             } else {
                 if (item.quality < 50) {
-                    item.quality = item.quality + 1;
+                    increaseQuality(item);
 
                     if (isBackstage) {
                         if (item.sellIn < 11) {
                             if (item.quality < 50) {
-                                item.quality = item.quality + 1;
+                                increaseQuality(item);
                             }
                         }
 
                         if (item.sellIn < 6) {
                             if (item.quality < 50) {
-                                item.quality = item.quality + 1;
+                                increaseQuality(item);
                             }
                         }
                     }
@@ -48,7 +48,7 @@ class GildedRose {
                     if (!isBackstage) {
                         if (item.quality > 0) {
                             if (!isSulfuras) {
-                                item.quality = item.quality - 1;
+                                decreaseQuality(item);
                             }
                         }
                     } else {
@@ -56,10 +56,18 @@ class GildedRose {
                     }
                 } else {
                     if (item.quality < 50) {
-                        item.quality = item.quality + 1;
+                        increaseQuality(item);
                     }
                 }
             }
         }
+    }
+
+    private void decreaseQuality(Item item) {
+        item.quality = item.quality - 1;
+    }
+
+    private void increaseQuality(Item item) {
+        item.quality = item.quality + 1;
     }
 }
