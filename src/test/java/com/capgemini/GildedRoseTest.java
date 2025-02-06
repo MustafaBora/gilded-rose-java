@@ -13,12 +13,13 @@ public class GildedRoseTest {
     @Before
     public void setUp() {
         items = new Item[] {
-                new Item("Sulfuras, Hand of Ragnaros", 0, 60),
+                new Item("Sulfuras, Hand of Ragnaros", 0, 45),
                 new Item("Aged Brie", 10, 0),
                 new Item("Aged Brie", 10, 50),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 9, 15),
                 new Item("Iron Man", 7, 25),
-                new Item("Iron Man", 0, 20)
+                new Item("Black Widow", 0, 20),
+                new Item("Hawkeye", 0, 0)
         };
         app = new GildedRose(items);
     }
@@ -38,11 +39,11 @@ public class GildedRoseTest {
         assertEquals(18, items[5].quality);
     }
 
-    // The Quality of an item is never more than 50
+    //The Quality of an item is never negative
     @Test
-    public void testSulfurasNeverDecreasesInQuality() {
+    public void testQualityIsNeverNegativeForNormals() {
         app.updateQuality();
-        assertEquals(60, items[0].quality);
+        assertEquals(0, items[6].quality);
     }
 
     // “Aged Brie” actually increases in Quality the older it gets
@@ -54,9 +55,16 @@ public class GildedRoseTest {
 
     // The Quality of an item is never more than 50
     @Test
-    public void testAgedBrieIncreasesInQualityMoreThan50() {
+    public void testQualityNeverGoesOver50() {
         app.updateQuality();
         assertEquals(50, items[2].quality);
+    }
+
+    //“Sulfuras”, being a legendary item, never has to be sold or decreases in Quality
+    @Test
+    public void testSulfurasNeverDecreasesInQuality() {
+        app.updateQuality();
+        assertEquals(45, items[0].quality);
     }
 
 }
