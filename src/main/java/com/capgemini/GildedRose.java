@@ -15,51 +15,61 @@ class GildedRose {
             isSulfuras = item.name.equals("Sulfuras, Hand of Ragnaros");
             if(isSulfuras) {
                 //don't do anything
+                continue;
+            }
+            if(isAgedBire) {
+                handleAgedBrie(item);
+            }
+            else if(isBackstage) {
+                handleBackstage(item);
             }
             else {
-                if (!isAgedBire && !isBackstage) {
-                    if (item.quality > 0) {
-                        item.quality = item.quality - 1;
+                if (item.quality > 0) {
+                    item.quality = item.quality - 1;
+                }
+            }
+
+
+            item.sellIn = item.sellIn - 1;
+
+            if (item.sellIn < 0) {
+                if (!isAgedBire) {
+                    if (!isBackstage) {
+                        if (item.quality > 0) {
+                            item.quality = item.quality - 1;
+                        }
+                    } else {
+                        item.quality = 0;
                     }
                 } else {
                     if (item.quality < 50) {
                         item.quality = item.quality + 1;
-
-                        if (isBackstage) {
-                            if (item.sellIn < 11) {
-                                if (item.quality < 50) {
-                                    item.quality = item.quality + 1;
-                                }
-                            }
-
-                            if (item.sellIn < 6) {
-                                if (item.quality < 50) {
-                                    item.quality = item.quality + 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                item.sellIn = item.sellIn - 1;
-
-                if (item.sellIn < 0) {
-                    if (!isAgedBire) {
-                        if (!isBackstage) {
-                            if (item.quality > 0) {
-                                item.quality = item.quality - 1;
-                            }
-                        } else {
-                            item.quality = 0;
-                        }
-                    } else {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1;
-                        }
                     }
                 }
             }
+        }
+    }
 
+    private void handleBackstage(Item backstage) {
+        if (backstage.quality < 50) {
+            backstage.quality = backstage.quality + 1;
+            if (backstage.sellIn < 11) {
+                if (backstage.quality < 50) {
+                    backstage.quality = backstage.quality + 1;
+                }
+            }
+
+            if (backstage.sellIn < 6) {
+                if (backstage.quality < 50) {
+                    backstage.quality = backstage.quality + 1;
+                }
+            }
+        }
+    }
+
+    private void handleAgedBrie(Item agedBrie) {
+        if (agedBrie.quality < 50) {
+            agedBrie.quality = agedBrie.quality + 1;
         }
     }
 }
