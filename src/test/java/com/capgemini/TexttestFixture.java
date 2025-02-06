@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 
 public class TexttestFixture {
 
+    //run this using the arguments> 30 your-results-file.txt
     public static void main(String[] args) {
         String expectedFileName = "expected.txt";
         System.out.println("OMGHAI!");
@@ -35,7 +36,7 @@ public class TexttestFixture {
             writeToFile(items, days, fileName);
             Path expectedPath = Paths.get(expectedFileName);
             Path actualPath = Paths.get(fileName);
-            compareFiles(expectedPath, actualPath);
+            compareFiles(expectedPath, actualPath, fileName);
         }
         else {
             writeSystemOut(items, days);
@@ -77,7 +78,7 @@ public class TexttestFixture {
         }
     }
 
-    private static void compareFiles(Path expected, Path actual) {
+    private static void compareFiles(Path expected, Path actual, String actualFileName) {
         try (BufferedReader bf1 = Files.newBufferedReader(expected);
              BufferedReader bf2 = Files.newBufferedReader(actual)) {
 
@@ -86,7 +87,7 @@ public class TexttestFixture {
             while ((line1 = bf1.readLine()) != null) {
                 line2 = bf2.readLine();
                 if(line2 == null) {
-                    System.out.println("Actual file is short but they are same until lineNumber: " + lineNumber);
+                    System.out.println("Actual file is shorter but they are same until lineNumber: " + lineNumber);
                     return;
                 }
                 else if (!line1.equals(line2)) {
@@ -101,10 +102,10 @@ public class TexttestFixture {
                 lineNumber++;
             }
             if(bf2.readLine() != null) {
-                System.out.println("They are same until lineNumber: " + lineNumber + ", expected.txt is short.");
+                System.out.println("They are same until lineNumber: " + lineNumber + ", " + actualFileName + " is shorter.");
             }
             else {
-                System.out.println("Files are equal");
+                System.out.println("Test results are equal");
             }
         } catch (IOException e) {
             e.printStackTrace();
