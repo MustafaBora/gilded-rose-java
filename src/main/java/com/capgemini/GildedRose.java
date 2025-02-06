@@ -13,16 +13,28 @@ class GildedRose {
             isAgedBire = item.name.equals("Aged Brie");
             isBackstage = item.name.equals("Backstage passes to a TAFKAL80ETC concert");
             isSulfuras = item.name.equals("Sulfuras, Hand of Ragnaros");
-            if(isBackstage) {
-                handleBackStage(item);
-            }
-            else if(isAgedBire) {
-                handleAgedBrie(item);
-            }
-            else {
+            if (!isAgedBire && !isBackstage) {
                 if (item.quality > 0) {
                     if (!isSulfuras) {
-                        decreaseQuality(item);
+                        item.quality = item.quality - 1;
+                    }
+                }
+            } else {
+                if (item.quality < 50) {
+                    item.quality = item.quality + 1;
+
+                    if (isBackstage) {
+                        if (item.sellIn < 11) {
+                            if (item.quality < 50) {
+                                item.quality = item.quality + 1;
+                            }
+                        }
+
+                        if (item.sellIn < 6) {
+                            if (item.quality < 50) {
+                                item.quality = item.quality + 1;
+                            }
+                        }
                     }
                 }
             }
@@ -36,50 +48,18 @@ class GildedRose {
                     if (!isBackstage) {
                         if (item.quality > 0) {
                             if (!isSulfuras) {
-                                decreaseQuality(item);
+                                item.quality = item.quality - 1;
                             }
                         }
+                    } else {
+                        item.quality = 0;
+                    }
+                } else {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1;
                     }
                 }
             }
         }
-    }
-
-    private void handleAgedBrie(Item agedBrie) {
-        if (agedBrie.quality < 50) {
-            increaseQuality(agedBrie);
-        }
-        if (agedBrie.sellIn < 0 && agedBrie.quality < 50) {
-            increaseQuality(agedBrie);
-        }
-    }
-
-    private void handleBackStage(Item backstage) {
-        if (backstage.quality < 50) {
-            increaseQuality(backstage);
-
-            if (backstage.sellIn < 11) {
-                if (backstage.quality < 50) {
-                    increaseQuality(backstage);
-                }
-            }
-
-            if (backstage.sellIn < 6) {
-                if (backstage.quality < 50) {
-                    increaseQuality(backstage);
-                }
-            }
-        }
-        if (backstage.sellIn < 0) {
-            backstage.quality = 0;
-        }
-    }
-
-    private void decreaseQuality(Item item) {
-        item.quality = item.quality - 1;
-    }
-
-    private void increaseQuality(Item item) {
-        item.quality = item.quality + 1;
     }
 }
