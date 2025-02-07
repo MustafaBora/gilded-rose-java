@@ -98,4 +98,9 @@ public class GildedRoseTest {
         assertEquals(0, items[6].quality);
     }
 
+    @Test
+    public void itemToString() {
+        assertEquals("Sulfuras, Hand of Ragnaros, 0, 45", items[0].toString());
+    }
+
 }
