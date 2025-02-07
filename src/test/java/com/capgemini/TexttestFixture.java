@@ -5,12 +5,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+//run this using the arguments> 30 your-results-file.txt
 public class TexttestFixture {
 
-    //run this using the arguments> 30 your-results-file.txt
     public static void main(String[] args) {
         String expectedFileName = "expected.txt";
-        System.out.println("OMGHAI!");
 
 
         Item[] items = new Item[] {
@@ -46,6 +45,7 @@ public class TexttestFixture {
 
     private static void writeSystemOut(Item[] items, int days) {
 
+        System.out.println("OMGHAI!");
         GildedRose app = new GildedRose(items);
         for (int i = 0; i < days; i++) {
             System.out.println("-------- day " + i + " --------");
@@ -62,7 +62,8 @@ public class TexttestFixture {
         try {
             PrintWriter writer = new PrintWriter(fileName, "UTF-8");
             GildedRose app = new GildedRose(items);
-            for (int i = 0; i < days; i++) {
+            writer.println("OMGHAI!");
+            for (int i = 0; i <= days; i++) {
 
                 writer.println("-------- day " + i + " --------");
                 writer.println("name, sellIn, quality");
