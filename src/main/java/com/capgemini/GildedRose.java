@@ -25,49 +25,19 @@ class GildedRose {
                 handleBackstage(item);
             }
             else {
-                if (item.quality > 0) {
-                    item.quality = item.quality - 1;
-                }
+                handleRest(item);
             }
-
-            handleExpiredItems(item, isAgedBrie, isBackstage);
-
         }
     }
 
-    private void handleExpiredItems(Item item, boolean isAgedBrie, boolean isBackstage) {
+    private void handleRest(Item item) {
+        if (item.quality > 0) {
+            item.quality = item.quality - 1;
+        }
         if (item.sellIn < 0) {
-
-
-            if(isAgedBrie) {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
+            if (item.quality > 0) {
+                item.quality = item.quality - 1;
             }
-            else if(isBackstage){
-                item.quality = 0;   //isBackstage
-            }
-            else {
-                if (item.quality > 0) {
-                    item.quality = item.quality - 1;
-                }
-            }
-
-            /*ver 1 if (!isAgedBrie) {
-                if (!isBackstage) {
-                    //is rest
-                    if (item.quality > 0) {
-                        item.quality = item.quality - 1;
-                    }
-                } else {
-                    item.quality = 0;   //isBackstage
-                }
-            } else {
-                //isAgedBrie
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
-            }*/
         }
     }
 
@@ -86,11 +56,19 @@ class GildedRose {
                 }
             }
         }
+        if(backstage.sellIn < 0) {
+            backstage.quality = 0;   //isBackstage
+        }
     }
 
     private void handleAgedBrie(Item agedBrie) {
         if (agedBrie.quality < 50) {
             agedBrie.quality = agedBrie.quality + 1;
+        }
+        if (agedBrie.sellIn < 0) {
+            if (agedBrie.quality < 50) {
+                agedBrie.quality = agedBrie.quality + 1;
+            }
         }
     }
 }
